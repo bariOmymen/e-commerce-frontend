@@ -2,7 +2,7 @@ import { FETCH_PRODUCTS, GET_PRODUCT } from "../types";
 
 export const fetchProducts = () => async (dispatch) => {
    
-    const res = await fetch('http://localhost:5000/api/products');
+    const res = await fetch('https://amazonia-backend.herokuapp.com/api/products');
     const {products} = await res.json()
     
     dispatch({
@@ -14,7 +14,7 @@ export const fetchProducts = () => async (dispatch) => {
 
 export const getProduct = (id) => async (dispatch) => {
    
-    const res = await fetch(`http://localhost:5000/api/products/${id}`)
+    const res = await fetch(`https://amazonia-backend.herokuapp.com/api/products/${id}`)
     const product = await res.json();
      
     

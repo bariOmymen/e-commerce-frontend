@@ -2,7 +2,7 @@
 import { ADD_TO_CART, DELETE_ITEM, SAVE_PAYMENT_METHOD, SAVE_SHIPPING_DETAILS } from "../types";
 
 export const addToCart = (productId,qty) => async (dispatch, getState) => {
-    const res = await fetch(`http://localhost:5000/api/products/${productId}`);
+    const res = await fetch(`https://amazonia-backend.herokuapp.com/api/products/${productId}`);
     const product = await res.json();
     dispatch({
         type: ADD_TO_CART,

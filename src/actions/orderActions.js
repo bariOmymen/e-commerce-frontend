@@ -18,7 +18,7 @@ try{
     
     const {userInfo} = getState().user;
     
-    const res = await fetch("http://localhost:5000/api/orders", 
+    const res = await fetch("https://amazonia-backend.herokuapp.com/api/orders", 
     {
         method : "POST",
         headers : {
@@ -69,7 +69,7 @@ export const findOrderById = (id) => async (dispatch, getState) => {
     try {
         const {userInfo} = getState().user
         
-    const res = await fetch(`http://localhost:5000/api/orders/${id}`,{
+    const res = await fetch(`https://amazonia-backend.herokuapp.com/api/orders/${id}`,{
         headers : {authorization : `Bearer ${userInfo.token}`}
     });
    const order = await res.json();
@@ -96,7 +96,7 @@ export const payOrder = (order, paymentResult) => async (dispatch, getState) => 
     });
     try{
         const {userInfo} = getState().user 
-        const res = await fetch(`http://localhost:5000/api/orders/${order._id}/pay`,
+        const res = await fetch(`https://amazonia-backend.herokuapp.com/api/orders/${order._id}/pay`,
         {
             method : 'PUT',
             headers : {
@@ -131,7 +131,7 @@ export const getOrderHistory = () => async (dispatch, getState) => {
     try{
        
         const {userInfo} = getState().user;
-        const res = await fetch('http://localhost:5000/api/orders/history',
+        const res = await fetch('https://amazonia-backend.herokuapp.com/api/orders/history',
         {
             headers : {
                 authorization : `Bearer ${userInfo.token}`
