@@ -5,8 +5,6 @@ import {Link} from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { Route } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import SigninScreen from './screens/SinginScreen';
@@ -18,9 +16,9 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import OrderHistory from './screens/OrderHistory';
 import UserProfileScreen from './screens/UserProfileScreen';
-import { useAuth } from './router-helper';
 import ProtectedRoute from './ProtectedRoute';
 import CartBadge from './components/CartBadge';
+import User from './components/User';
 
 
 
@@ -28,7 +26,6 @@ import CartBadge from './components/CartBadge';
 
 
 function App() {
-  const auth = useAuth();
   const userInfo = useSelector(state => state.user.userInfo)
 
   const cartItems = useSelector(state => state.cart.cartItems);
@@ -48,63 +45,10 @@ function App() {
 </CartBadge> : null}</Link>
 
 {userInfo ? (
-              <div className="dropdown">
-                <Link to="#">
-                  {userInfo.name} <FontAwesomeIcon icon={faCaretDown}></FontAwesomeIcon>{' '}
-                </Link>
-                <ul className="dropdown-content">
-                  <li>
-                    <Link to="/userprofile">User Profile</Link>
-                  </li>
-                  <li>
-                    <Link to="/orderhistory">Order History</Link>
-                  </li>
-                  <li>
-                    <Link to="#signout" onClick={() => {auth.signout()}}>
-                      Sign Out
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+              <User />
             ) : (
               <Link to="/signin">Sign In</Link>
             )}
-
-
-
-
-
-
-{/*
-{userInfo? (
-
-<div className="dropdown">
-<Link to="#">
-  {userInfo.name} <FontAwesomeIcon icon={faCaretDown}></FontAwesomeIcon>{' '}
-  </Link>
- 
-<ul className="dropdown-content">
-  <li>
-    <Link to="/userprofile">User Profile</Link>
-  </li>
-  <li>
-    <Link to="/history">Order History</Link>
-  </li>
-  <li>
-    <Link to="#signout" onClick={() => auth.signout()}>
-      Sign Out
-    </Link>
-  </li>
-</ul>
-
-</div> ) : <Link to='/signin' > SIGNIN
-</Link> 
-  
-
-}
-*/}
-
-
 
 </div>
 
@@ -151,8 +95,3 @@ ALL RIGHTS RESERVED
 export default App;
 
 
-/* <ul className='dropdown-content' >
-  <li onClick={()=>dispatch(signOut())}><Link to='#signout'>signOut</Link></li>
-  <li><Link to='/userprofile'></Link>profile</li>
-  <li><Link to='/history'></Link>history</li>
-</ul> */

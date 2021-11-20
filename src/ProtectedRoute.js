@@ -4,13 +4,6 @@ import { useAuth } from './router-helper'
 
 export default function ProtectedRoute({component : Component, ...rest}) {
     const auth = useAuth();
-    if(auth.user === true){
-        console.log('auth true');
-        console.log(auth.user);
-    }else{
-        console.log(auth.user);
-        console.log('nothing');
-    }
     return (
        <Route {...rest} render={props => {
            if(auth.user === true){

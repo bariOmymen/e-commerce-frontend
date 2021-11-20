@@ -4,8 +4,8 @@ export const signIn = (email, password) => async (dispatch) => {
     
 dispatch({type : SIGN_IN_USER_REQUEST, payLoad: {email, password}})
 try{
-    console.log('erroro but not');
-    await fetch('https://amazonia-backend.herokuapp.com/api/users/singin',{
+    
+    await fetch('http://localhost:5000/api/users/singin',{
         method : 'POST',
         headers : {"content-Type" : "application/json" },
         body : JSON.stringify({email,password})
@@ -52,7 +52,7 @@ export const signUp = (name,email,password) => async (dispatch) => {
         {loading : false}});
     try{
         
-        await fetch('https://amazonia-backend.herokuapp.com/api/users/signup',{
+        await fetch('http://localhost:5000/api/users/signup',{
             method : 'POST',
             headers : {"content-Type" : "application/json" },
             body : JSON.stringify({email,password,name})
@@ -82,7 +82,7 @@ dispatch({
 
 try{
     
-    const res = await fetch(`https://amazonia-backend.herokuapp.com/api/users/${id}`);
+    const res = await fetch(`http://localhost:5000/api/users/${id}`);
     const userById = await res.json();
     dispatch({
         type : GET_USER_BY_ID_SUCCESS,
@@ -106,7 +106,7 @@ export const updateUserInfo = (newInfo) => async (dispatch, getState) => {
 
     try{
 const {userInfo} = getState().user
-        const res = await fetch(`https://amazonia-backend.herokuapp.com/api/users/update/${newInfo._id}`,
+        const res = await fetch(`http://localhost:5000/api/users/update/${newInfo._id}`,
         {
             method : 'PUT',
             headers : {
