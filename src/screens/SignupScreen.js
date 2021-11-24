@@ -21,7 +21,7 @@ history.push(redirect);
     const submitHandler = (e) => {
 e.preventDefault();
 if(password===confirmed){
-auth.signUp(name,email,password)
+auth.signup(name,email,password)
 }else{
     alert("passwords don't match");
 }

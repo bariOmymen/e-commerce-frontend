@@ -3,8 +3,18 @@
   padding: 0;
   margin: 0;
 }
+
+ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+
 #root,body {
   height: 100vh;
+  --primary: rgba(236, 178, 16, 0.849);
+  --secondary: rgb(3, 3, 14);
 }
 
 .margin-left{
@@ -15,7 +25,7 @@
 }
 
 .button{
-  background-color: rgba(236, 178, 16, 0.849);
+  background-color: var(--primary);
   border: 1px black solid;
   font-weight:bold;
   font-size: 1rem;
@@ -25,57 +35,26 @@
 .grid-container {
   display: grid;
   grid-template-areas: 'header' 'main' 'footer';
-  grid-template-rows: 4rem 1fr 6rem;
+  grid-template-rows: 4rem 1fr 4rem;
   grid-template-columns: 1fr;
   height: 100%; 
 }
 
 /*header*/
 header {
-  background-color: rgb(3, 3, 14);
- 
- justify-content: center;
-}
-
-header .container {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  align-self: center;
-  justify-content: space-between;
-  padding: 0 1rem;
-}
-.right-side {
-  display: inline-block;
- 
-}
-.dropdown {
-display: inline-block;
-position: relative;
-
-color: white;
-}
-.dropdown-content{
-  position: absolute;
-  top:1.2rem;
-  right: 5px;
-  align-self: center;
-  background-color: rgb(3, 3, 14);
-  padding: .5rem 3rem;
-  border-radius: 5px;
-  display: none;
- 
-}
-
-.dropdown:hover .dropdown-content{
-  display: block;
+  background-color: var(--secondary);
+  
+    top: 0px;
+    width: 100%;
+    height: 60px;
+    
 }
 
 
 
 /* rating */
 .rating{
-  color: gold;
+  color: var(--primary);
 }
 .num-reviews{
   color: initial;
@@ -94,22 +73,23 @@ header .container a {
 
 /*footer*/
 
-footer{
-  background-color:rgb(3, 3, 14);
+ footer{
+  background-color:var(--secondary);
   color: aliceblue;
 }
-footer .container {
+footer .footer-container{
+  display: flex;
+  flex-direction: column;
   text-align: center;
   align-items: center;
-  align-self: center;
   justify-content: center;
-  height: 100%;
-  display: flex;
+  
+  
 
   
-}
+} 
 /*main*/
-main .container {
+main .home-container {
   justify-content: center;
 }
 
@@ -207,7 +187,7 @@ background-color: rgba(241, 235, 235, 0.945);
   width: 90%;
   padding: .5rem;
   margin: .7rem;
-  background-color: rgba(236, 178, 16, 0.849);
+  background-color: var(--primary);
   border: 1px black solid;
   font-weight:bold;
   font-size: 1rem;

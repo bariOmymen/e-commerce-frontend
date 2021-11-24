@@ -14,7 +14,7 @@ const HomeScreen = ({products, fetchProducts}) => {
     },[fetchProducts])
 
     return (
-        <div className="container row-center">
+        <div className="home-container row-center">
 
  
         { products ? products.map(product => (

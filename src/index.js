@@ -6,16 +6,23 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux'
 import store from './store';
 import {ProvideAuth } from './router-helper';
+import {Web3ReactProvider} from '@web3-react/core'
+import {getLibrary} from './providers'
+
+//import Providers from './providers';
 
 
 ReactDOM.render(
+  <Web3ReactProvider getLibrary={getLibrary}>
   <Provider store={store}>
     <ProvideAuth>
   <React.StrictMode>
     <App />
   </React.StrictMode>
   </ProvideAuth>
-  </Provider>,
+  </Provider>
+  </Web3ReactProvider>
+ ,
   document.getElementById('root')
 );
 
