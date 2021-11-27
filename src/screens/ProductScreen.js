@@ -16,8 +16,6 @@ const ProductScreen = ({ product, getProduct, addToCart, ...props }) => {
     props.history.push(`/cart`);
   };
 
-  
-
   useEffect(() => {
     getProduct(match.params.id);
   }, [getProduct, match]);

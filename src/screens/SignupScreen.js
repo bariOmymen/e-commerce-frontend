@@ -1,92 +1,95 @@
-import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
-import { signUp } from '../actions/userActions';
-import { useAuth } from '../router-helper';
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { signUp } from "../actions/userActions";
+import { useAuth } from "../router-helper";
+import styled from "styled-components";
+import { Card, Container, Form, Header, Input, Page } from "../components/form";
 
+const SignupCard = styled(Card)``;
 
-const SignupScreen = ({userInfo,signUp,location,history}) => {
-    const [email, setEmail] = useState()
-    const [name, setName] = useState()
-    const [password, setPassword] = useState()
-    const [confirmed, setConfirmed] = useState()
-    const auth = useAuth();
+const SignupContainer = styled(Container)`
+  justify-content: center;
+  align-items: center;
+`;
+const SignupForm = styled(Form)`
+  justify-self: center;
+  align-self: center;
+  margin-top: 5px;
+`;
+const SignupInput = styled(Input)`
+  margin: 0px auto;
+`;
+const SignupPage = styled(Page)``;
+const SignupHeader = styled(Header)`
+  align-self: flex-start;
+  justify-content: flex-start;
+  margin: 10px 25px;
+`;
 
-    const redirect = location.search ? location.search.split('=')[1] : '/';
+const SignupScreen = ({ userInfo, signUp, location, history }) => {
+  const [email, setEmail] = useState();
+  const [name, setName] = useState();
+  const [password, setPassword] = useState();
+  const [confirmed, setConfirmed] = useState();
+  const auth = useAuth();
 
-    useEffect(() => {
-if(userInfo){
-history.push(redirect);
-}
-    })
-    const submitHandler = (e) => {
-e.preventDefault();
-if(password===confirmed){
-auth.signup(name,email,password)
-}else{
-    alert("passwords don't match");
-}
+  const redirect = location.search ? location.search.split("=")[1] : "/";
 
-
-
+  useEffect(() => {
+    if (userInfo) {
+      history.push(redirect);
     }
-    return (
-        <div className='signup'>
-            <div className='container'>
-              <form className='signup-form form' onSubmit={submitHandler}>
-              <h3>Enter your details</h3>
-<div>
-                <label htmlFor="email">Email</label>
-                <input value={email} 
-                onChange={(e) => setEmail(e.target.value)} 
-                placeholder="Email@email.coom"
-                type="text">
+  });
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (password === confirmed) {
+      auth.signup(name, email, password);
+    } else {
+      alert("passwords don't match");
+    }
+  };
+  return (
+    <SignupPage>
+      <SignupCard>
+        <SignupContainer>
+          <SignupHeader>Signup</SignupHeader>
+          <SignupForm onSubmit={submitHandler}>
+            <SignupInput
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email@email.com"
+              type="email"
+            ></SignupInput>
 
-                </input>
-                </div>
-<div>
-                <label htmlFor="name">Name</label>
-                <input value={name} 
-                 type="text"
-                onChange={(e) => setName(e.target.value)} 
-                placeholder="Name">
+            <SignupInput
+              value={name}
+              type="text"
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Name"
+            ></SignupInput>
 
-                </input>
-                </div>
-<div>
-                <label htmlFor="password">Password</label>
-                <input value={password} 
-                onChange={(e) => setPassword(e.target.value)} 
-                placeholder="password"
-                type='password'
-                >
-                    
-                </input>
-                </div>
-<div>
-                <label htmlFor="confirmation">confirmation</label>
-                <input value={confirmed} 
-                 type="password"
-                onChange={(e) => setConfirmed(e.target.value)} 
-                placeholder="confirmation">
+            <SignupInput
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="password"
+              type="password"
+            ></SignupInput>
 
-                </input>
-                </div>
-                <div>
-                    <input className='button submit-Button' type='submit' value="continue" />
-                </div>
-            </form>
-            </div>
-        </div>
-    )
-}
+            <SignupInput
+              value={confirmed}
+              type="password"
+              onChange={(e) => setConfirmed(e.target.value)}
+              placeholder="confirmation"
+            ></SignupInput>
 
-export default connect((state) => ({userInfo : state.user.userInfo}),{signUp}) (SignupScreen)
-/* <label>Enter Email</label>
-                <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} required={true} ></input>
-                <label>Enter Name</label>
-                <input type='text' value={name} onChange={(e) => setName(e.target.value)} required={true} ></input>
-                <label>Enter Password</label>
-                <input type='text' value={password} onChange={(e) => setPassword(e.target.value)} required={true} ></input>
-                <label>confirm password</label>
-                <input type='text' value={confirmed} onChange={(e) => setConfirmed(e.target.value)} required={true} ></input>
-                <input type='submit' value='Signup' className='submit-Button'></input>*/
+            <SignupInput type="submit" value="Signup" />
+          </SignupForm>
+        </SignupContainer>
+      </SignupCard>
+    </SignupPage>
+  );
+};
+
+export default connect((state) => ({ userInfo: state.user.userInfo }), {
+  signUp,
+})(SignupScreen);
