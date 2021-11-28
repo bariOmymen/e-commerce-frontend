@@ -34,9 +34,5 @@ cypress/fixtures/example.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-<<<<<<< HEAD
 debug.log*
 
-=======
-/Procfile
->>>>>>> 2f36a1ef607419e4f71b47f091c3a3bb330ba134
