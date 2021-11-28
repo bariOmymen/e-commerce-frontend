@@ -65,7 +65,6 @@ const SinginScreen = ({ user, location, history, state }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log("wok0");
     auth.signin(email, password);
   };
 

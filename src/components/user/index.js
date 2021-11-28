@@ -4,6 +4,7 @@ import { useWeb3React } from "@web3-react/core";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../router-helper";
+import { Button } from "../form";
 import "./styles.css";
 import UserItem from "./UserItem";
 
@@ -53,7 +54,7 @@ function User() {
           </Link>
         </UserItem>
         <UserItem>
-          <button onClick={disconnect}>Disconnect</button>
+          <Button onClick={disconnect}>Disconnect</Button>
         </UserItem>
         <UserItem>
           <Link
@@ -62,7 +63,7 @@ function User() {
               auth.signout();
             }}
           >
-            signin
+            Signin
           </Link>
         </UserItem>
         <UserItem>

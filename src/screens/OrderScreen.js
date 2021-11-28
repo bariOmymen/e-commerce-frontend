@@ -60,7 +60,7 @@ function OrderScreen({ ...props }) {
         }
       }
     }
-  }, [orderId, dispatch, orderById]);
+  }, [orderId, dispatch, orderById, successPay, isPaid]);
 
   const successHandler = (paymentResult) => {
     dispatch(payOrder(order, paymentResult));
