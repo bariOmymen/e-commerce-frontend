@@ -1,11 +1,8 @@
-import React from 'react'
-import './styles.css'
-function UserItem({children}) {
-    return (
-        <li className='user-item'>
-           {children} 
-        </li>
-    )
+import React from "react";
+import { ListItem } from "../styles/ListItem";
+import "./styles.css";
+function UserItem({ children }) {
+  return <ListItem className="user-item">{children}</ListItem>;
 }
 
-export default UserItem
+export default UserItem;

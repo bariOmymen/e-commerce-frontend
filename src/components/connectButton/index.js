@@ -1,29 +1,33 @@
-import { useWeb3React } from '@web3-react/core';
-import React, { useCallback } from 'react'
-import { injected } from '../../connectors';
-import './styles.css'
+import { useWeb3React } from "@web3-react/core";
+import React, { useCallback } from "react";
+import { injected } from "../../connectors";
+import styled from "styled-components";
+import { useToast } from "../../hooks/useToast";
+import { Button } from "../styles/Button";
 
-function ConnectButton() {
-    const {activate, account, active} = useWeb3React();
-    console.log(active);
-    const connect = useCallback( () => {
-  
-      try{
-       activate(injected);
-        
-      } catch (e){
-        console.log(e.message);
+const ConnectButton = () => {
+  const { toastError, toastSuccess } = useToast();
+  const { activate, active, account } = useWeb3React();
+  const connect = useCallback(() => {
+    try {
+      activate(injected, async (error) => {
+        const description = error.message;
+        toastError({ title: "request pending", description });
+      });
+      if (active) {
+        toastSuccess({ title: "Connected", description: account });
       }
-  
-    }, [activate])
-    return (
-        <div className='connect-container'>
-             {
-            active ? account :
-             <button className='btn connect-btn' onClick={connect}>connect</button>
-}
-        </div>
-    )
-}
 
-export default ConnectButton
+      JSON.stringify(localStorage.setItem("isConnected", true));
+    } catch (e) {
+      console.log(e.message);
+    }
+  }, [account, activate, active, toastError, toastSuccess]);
+  return (
+    <div className="connect-container">
+      <Button onClick={connect}>connect</Button>
+    </div>
+  );
+};
+
+export default ConnectButton;
