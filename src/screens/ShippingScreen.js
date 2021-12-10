@@ -1,8 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
 import ChexkoutFlow from "../components/ChexkoutFlow";
 import { saveShippingDetails } from "../actions/cartActins";
+import { useNavigate } from "react-router-dom";
+import { Card, Form, Header, Input, Page } from "../components/form";
+import styled from "styled-components";
+import { useToast } from "../hooks/useToast";
+
+const ShippingCard = styled(Card)``;
+
+const ShippingForm = styled(Form)`
+  justify-self: center;
+  align-self: center;
+  margin-top: 5px;
+`;
+const ShippingInput = styled(Input)`
+  margin: 0px auto;
+  font-weight: bold;
+`;
+const ShippingPage = styled(Page)`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+const ShippingHeader = styled(Header)`
+  align-self: flex-start;
+  justify-content: flex-start;
+  margin: 10px 25px;
+`;
 
 function ShippingScreen({
   shippingDetails,
@@ -10,82 +36,89 @@ function ShippingScreen({
   userInfo,
   ...props
 }) {
-  if (!userInfo) {
-    props.history.push("/signin");
-  }
-
-  const [fullName, setFullName] = useState(shippingDetails.fullName);
-  const [address, setAddress] = useState(shippingDetails.address);
-  const [city, setCity] = useState(shippingDetails.city);
-  const [postalCode, setPostalCode] = useState(shippingDetails.postalCode);
-  const [country, setCountry] = useState(shippingDetails.country);
+  const [fullName, setFullName] = useState();
+  const [address, setAddress] = useState();
+  const [city, setCity] = useState();
+  const [postalCode, setPostalCode] = useState();
+  const [country, setCountry] = useState();
+  const navigate = useNavigate();
+  const { toastSuccess } = useToast();
+  useEffect(() => {
+    setFullName(shippingDetails?.fullName);
+    setAddress(shippingDetails?.address);
+    setCity(shippingDetails?.city);
+    setPostalCode(shippingDetails?.postalCode);
+    setCountry(shippingDetails?.country);
+  }, [
+    shippingDetails?.address,
+    shippingDetails?.city,
+    shippingDetails?.country,
+    shippingDetails?.fullName,
+    shippingDetails?.postalCode,
+  ]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    saveShippingDetails({ fullName, address, city, postalCode, country });
-    props.history.push("/payment");
+    if (!shippingDetails) {
+      saveShippingDetails({ fullName, address, city, postalCode, country });
+      toastSuccess({ title: "Shipping Details Saved" });
+    }
+
+    navigate("../payment", { replace: true });
   };
   return (
-    <div className="shipping-details">
+    <div className="screen">
       <ChexkoutFlow step1 step2></ChexkoutFlow>
+      <ShippingPage>
+        <ShippingCard size="big">
+          <ShippingForm className="shipping-form form" onSubmit={submitHandler}>
+            <ShippingHeader>Shipping details</ShippingHeader>
 
-      <form className="shipping-form form" onSubmit={submitHandler}>
-        <h3>Shipping details</h3>
-        <div>
-          <label htmlFor="fullname">Full Name</label>
-          <input
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-            placeholder="Full Name"
-            type="text"
-          ></input>
-        </div>
-        <div>
-          <label htmlFor="address">Address</label>
-          <input
-            value={address}
-            type="text"
-            onChange={(e) => setAddress(e.target.value)}
-            placeholder="address"
-          ></input>
-        </div>
-        <div>
-          <label htmlFor="City">City</label>
-          <input
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            placeholder="City"
-          ></input>
-        </div>
-        <div>
-          <label htmlFor="postal-code">postal code</label>
-          <input
-            value={postalCode}
-            type="text"
-            onChange={(e) => setPostalCode(e.target.value)}
-            placeholder="postal code"
-          ></input>
-        </div>
-        <div>
-          <label htmlFor="Country">Country</label>
-          <input
-            value={country}
-            type="text"
-            onChange={(e) => setCountry(e.target.value)}
-            placeholder="Country"
-          ></input>
-        </div>
-        <div>
-          <input className="button" type="submit" value="continue" />
-        </div>
-      </form>
+            <ShippingInput
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              placeholder="Full Name"
+              type="text"
+            />
+
+            <ShippingInput
+              value={address}
+              type="text"
+              onChange={(e) => setAddress(e.target.value)}
+              placeholder="address"
+            />
+
+            <ShippingInput
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              placeholder="City"
+            />
+
+            <ShippingInput
+              value={postalCode}
+              type="text"
+              onChange={(e) => setPostalCode(e.target.value)}
+              placeholder="postal code"
+            />
+
+            <ShippingInput
+              value={country}
+              type="text"
+              onChange={(e) => setCountry(e.target.value)}
+              placeholder="Country"
+            />
+
+            <ShippingInput className="button" type="submit" value="continue" />
+          </ShippingForm>
+        </ShippingCard>
+      </ShippingPage>
     </div>
   );
 }
 
 export default connect(
   (state) => ({
-    shippingDetails: state.userDetails.shipping,
+    shippingDetails: state.userShippingDetails.shipping,
     userInfo: state.user.userInfo,
   }),
   { saveShippingDetails }

@@ -2,21 +2,23 @@ import { useWeb3React } from "@web3-react/core";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 import CartBadge from "../CartBadge";
 import ConnectButton from "../connectButton";
+import { ListItem } from "../styles/ListItem";
 import User from "../user";
 import "./styles.css";
 
 function Nav() {
   const { cartItems } = useSelector((state) => state.cart);
-  const { userInfo } = useSelector((state) => state.user);
+  const userInfo = useAuth();
   const { active } = useWeb3React();
   return (
     <nav className="container">
       <Link to="/"> AMAZONIA</Link>
       <div className="right-side">
         <ul className="nav-items">
-          <li>
+          <ListItem>
             <Link className="cart" to="/cart">
               {" "}
               Cart{" "}
@@ -26,8 +28,16 @@ function Nav() {
                 </CartBadge>
               ) : null}
             </Link>
-          </li>
-          <li>{active ? <User /> : <ConnectButton />}</li>
+          </ListItem>
+          {active ? (
+            <ListItem>
+              <User />
+            </ListItem>
+          ) : (
+            <li>
+              <ConnectButton />
+            </li>
+          )}
         </ul>
       </div>
     </nav>

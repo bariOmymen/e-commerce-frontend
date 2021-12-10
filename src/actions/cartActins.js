@@ -7,7 +7,7 @@ import {
 
 export const addToCart = (productId, qty) => async (dispatch, getState) => {
   const res = await fetch(
-    `https://amazonia-backend.herokuapp.com/api/products/${productId}`
+    `${process.env.REACT_APP_BACKEND}/api/products/${productId}`
   );
   const product = await res.json();
   dispatch({

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { signUp } from "../actions/userActions";
-import { useAuth } from "../router-helper";
+import { useAuth } from "../hooks/useAuth";
 import styled from "styled-components";
 import { Card, Container, Form, Header, Input, Page } from "../components/form";
-
+import { useLocation, useNavigate } from "react-router-dom";
+import { useToast } from "../hooks/useToast";
 const SignupCard = styled(Card)``;
 
 const SignupContainer = styled(Container)`
@@ -18,6 +19,7 @@ const SignupForm = styled(Form)`
 `;
 const SignupInput = styled(Input)`
   margin: 0px auto;
+  font-weight: bold;
 `;
 const SignupPage = styled(Page)``;
 const SignupHeader = styled(Header)`
@@ -26,20 +28,25 @@ const SignupHeader = styled(Header)`
   margin: 10px 25px;
 `;
 
-const SignupScreen = ({ userInfo, signUp, location, history }) => {
+const SignupScreen = ({ userInfo }) => {
   const [email, setEmail] = useState();
   const [name, setName] = useState();
   const [password, setPassword] = useState();
   const [confirmed, setConfirmed] = useState();
   const auth = useAuth();
-
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { error } = useSelector((state) => state.userSignup);
+  const { toastError } = useToast();
   const redirect = location.search ? location.search.split("=")[1] : "/";
-
   useEffect(() => {
     if (userInfo) {
-      history.push(redirect);
+      navigate(redirect, { replace: true });
     }
-  });
+    if (error?.message) {
+      toastError({ title: error.name, description: error.message });
+    }
+  }, [error, navigate, redirect, userInfo]);
   const submitHandler = (e) => {
     e.preventDefault();
     if (password === confirmed) {
@@ -90,6 +97,11 @@ const SignupScreen = ({ userInfo, signUp, location, history }) => {
   );
 };
 
-export default connect((state) => ({ userInfo: state.user.userInfo }), {
-  signUp,
-})(SignupScreen);
+export default connect(
+  (state) => ({
+    userInfo: state.user.userInfo,
+  }),
+  {
+    signUp,
+  }
+)(SignupScreen);

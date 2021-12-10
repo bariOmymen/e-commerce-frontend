@@ -1,10 +1,4 @@
-import {
-  ADD_TO_CART,
-  DELETE_ITEM,
-  EMPTYCART,
-  SAVE_PAYMENT_METHOD,
-  SAVE_SHIPPING_DETAILS,
-} from "../types";
+import { ADD_TO_CART, DELETE_ITEM, EMPTYCART } from "../types";
 
 const cartReducers = (state = { cartItems: [] }, action) => {
   switch (action.type) {
@@ -27,24 +21,6 @@ const cartReducers = (state = { cartItems: [] }, action) => {
       return { cartItems: action.payLoad.cartItems };
     case EMPTYCART:
       return { cartItems: [] };
-
-    default:
-      return state;
-  }
-};
-
-export const userDetailsReducer = (
-  state = {
-    shippingDetails: {},
-    payment: "",
-  },
-  action
-) => {
-  switch (action.type) {
-    case SAVE_SHIPPING_DETAILS:
-      return { shippingDetails: action.payLoad };
-    case SAVE_PAYMENT_METHOD:
-      return { payment: action.payLoad };
 
     default:
       return state;

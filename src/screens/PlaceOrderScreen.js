@@ -1,50 +1,62 @@
 import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { placeOrder } from "../actions/orderActions";
 import ChexkoutFlow from "../components/ChexkoutFlow";
 import { CREATE_ORDER_RESET } from "../types";
+import { useToast } from "../hooks/useToast";
 
 function PlaceOrderScreen({
   cartItems,
   paymentMethod,
   placeOrder,
   order,
+  shippingDetails: shipping,
+
   ...props
 }) {
-  const shipping = JSON.parse(localStorage.getItem("shippingDetails"));
-
-  const { success, createdOrder } = order;
+  const { success, createdOrder, error } = order;
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const { toastSuccess, toastError } = useToast();
   useEffect(() => {
     if (success) {
-      props.history.push(`/order/${createdOrder.order._id}`);
+      toastSuccess({ title: "Order Placed Successfully" });
+      navigate(`/order/${createdOrder.order._id}`, { replace: true });
       dispatch({
         type: CREATE_ORDER_RESET,
       });
     }
-  }, [success, props, dispatch, createdOrder]);
+    if (error) {
+      toastError({ title: error.name, description: error.message });
+    }
+  }, [success, dispatch, createdOrder, navigate, error]);
 
   const itemsPrice = cartItems.reduce((a, c) => a + c.price * c.qty, 0);
   const taxPrice = cartItems[0].price;
   const shippingPrice = cartItems[0].price;
   const totalPrice = itemsPrice + taxPrice + shippingPrice;
   return (
-    <div className="container">
+    <div className="">
       <ChexkoutFlow step1 step2 step3 step4 />
-      <div className="order-columns">
+      <div className=" order-columns">
         <div className="order-col-1">
           <ul>
             <li>
               <div className="card shipping-details">
                 <div>
-                  <strong>Name :</strong> <span>{shipping.fullName}</span>
+                  <strong>Name :</strong> <span>{shipping?.fullName}</span>
                 </div>
                 <br />
-                <div>
-                  <strong>Address :</strong> {shipping.address}, {shipping.city}
-                  , {shipping.postalCode}, {shipping.country}
-                </div>
+                {shipping ? (
+                  <div>
+                    <strong>Address :</strong> {shipping?.address},{" "}
+                    {shipping?.city}, {shipping?.postalCode},{" "}
+                    {shipping?.country}
+                  </div>
+                ) : (
+                  "loading..."
+                )}
               </div>
             </li>
             <li>
@@ -117,9 +129,10 @@ function PlaceOrderScreen({
 
 export default connect(
   (state) => ({
-    shippingDetails: state.userDetails.shipping,
+    shippingDetails: state.userShippingDetails.shipping,
+    payment: state.userPaymentDetails.payment,
     cartItems: state.cart.cartItems,
-    paymentMethod: state.userDetails.payment,
+    paymentMethod: state.userPaymentDetails.payment,
     order: state.orders,
   }),
   {

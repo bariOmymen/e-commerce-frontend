@@ -21,7 +21,7 @@ const orderReducers = (state = {}, action) => {
       return { loading: true, order: action.payload };
 
     case CREATE_ORDER_FAIL:
-      return { loading: false, error: action.error };
+      return { loading: false, success: false, error: action.error };
 
     case CREATE_ORDER_SUCCESS:
       return { loading: false, success: true, createdOrder: action.payLoad };

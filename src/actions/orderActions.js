@@ -29,26 +29,23 @@ export const placeOrder = (order) => async (dispatch, getState) => {
     } = order;
 
     const { userInfo } = getState().user;
+    const res = await fetch(`${process.env.REACT_APP_BACKEND}/api/orders`, {
+      method: "POST",
 
-    const res = await fetch(
-      "https://amazonia-backend.herokuapp.com/api/orders",
-      {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          authorization: `Bearer ${userInfo.token}`,
-        },
-        body: JSON.stringify({
-          orderItems,
-          shipping,
-          paymentMethod,
-          itemsPrice,
-          taxPrice,
-          shippingPrice,
-          totalPrice,
-        }),
-      }
-    );
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${userInfo.token}`,
+      },
+      body: JSON.stringify({
+        orderItems,
+        shipping,
+        paymentMethod,
+        itemsPrice,
+        taxPrice,
+        shippingPrice,
+        totalPrice,
+      }),
+    });
     const newOrder = await res.json();
 
     dispatch({
@@ -64,7 +61,7 @@ export const placeOrder = (order) => async (dispatch, getState) => {
   } catch (e) {
     dispatch({
       type: CREATE_ORDER_FAIL,
-      error: e.message,
+      error: e,
     });
   }
 };
@@ -78,7 +75,7 @@ export const findOrderById = (id) => async (dispatch, getState) => {
     const { userInfo } = getState().user;
 
     const res = await fetch(
-      `https://amazonia-backend.herokuapp.com/api/orders/${id}`,
+      `${process.env.REACT_APP_BACKEND}/api/orders/${id}`,
       {
         headers: { authorization: `Bearer ${userInfo.token}` },
       }
@@ -106,7 +103,7 @@ export const payOrder =
     try {
       const { userInfo } = getState().user;
       const res = await fetch(
-        `https://amazonia-backend.herokuapp.com/api/orders/${order._id}/pay`,
+        `${process.env.REACT_APP_BACKEND}/api/orders/${order._id}/pay`,
         {
           method: "PUT",
           headers: {
@@ -135,7 +132,7 @@ export const getOrderHistory = () => async (dispatch, getState) => {
   try {
     const { userInfo } = getState().user;
     const res = await fetch(
-      "https://amazonia-backend.herokuapp.com/api/orders/history",
+      `${process.env.REACT_APP_BACKEND}/api/orders/history`,
       {
         headers: {
           authorization: `Bearer ${userInfo.token}`,

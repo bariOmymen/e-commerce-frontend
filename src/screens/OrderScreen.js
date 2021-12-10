@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PayPalButton } from "react-paypal-button-v2";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { findOrderById, payOrder } from "../actions/orderActions";
 import { CREATE_PAY_RESET } from "../types";
 
@@ -26,11 +27,14 @@ function OrderScreen({ ...props }) {
   } = orderById;
 
   const [sdkReady, setSdkReady] = useState(false);
-  const orderId = props.match.params.id;
+  const params = useParams();
+  const orderId = params.id;
   const dispatch = useDispatch();
   useEffect(() => {
     const addPayPalScript = async () => {
-      const res = await fetch("http://localhost:5000/api/config/paypal");
+      const res = await fetch(
+        `${process.env.REACT_APP_BACKEND}api/config/paypal`
+      );
       const id = await res.json();
 
       const script = document.createElement("script");

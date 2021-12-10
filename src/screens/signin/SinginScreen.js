@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { signIn } from "../../actions/userActions";
-import { useAuth } from "../../router-helper";
-import ErrorBox from "../../components/ErrorBox";
+import { useAuth } from "../../hooks/useAuth";
 import styled from "styled-components";
 import {
   Button,
@@ -15,6 +14,7 @@ import {
   Page,
   RowContainer,
 } from "../../components/form";
+import { useToast } from "../../hooks/useToast";
 
 const SigninCard = styled(Card)`
   margin: 0px auto;
@@ -29,8 +29,8 @@ const SigninHeader = styled(Header)`
 `;
 
 const SigninInput = styled(Input)`
-margin: 0px auto;
-}
+  margin: 0px auto;
+  font-weight: bold;
 `;
 
 const SigninForm = styled(Form)`
@@ -48,20 +48,24 @@ const SigninRowContainer = styled(RowContainer)`
   justify-content: space-between;
 `;
 
-const SinginScreen = ({ user, location, history, state }) => {
+const SinginScreen = ({ user, state }) => {
   const auth = useAuth();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const { toastError } = useToast();
+  const location = useLocation();
   const redirect = location.search ? location.search.split("=")[1] : "/";
   const { userInfo, error } = user;
-  console.log(error?.message);
+  const history = useNavigate();
 
   useEffect(() => {
-    if (userInfo && !userInfo?.message) {
-      history.push(redirect);
+    if (userInfo) {
+      history(redirect, { replace: true });
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
     }
-  }, [userInfo, redirect, history]);
+    error?.message &&
+      toastError({ title: error.name, description: error.message });
+  }, [userInfo, history, error, redirect]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -79,12 +83,6 @@ const SinginScreen = ({ user, location, history, state }) => {
             </Link>
           </SigninRowContainer>
 
-          {error?.message && (
-            <ErrorBox className="error">
-              <ErrorBox.Text>{error?.message}</ErrorBox.Text>
-            </ErrorBox>
-          )}
-
           <SigninForm onSubmit={submitHandler}>
             <SigninInput
               value={email}
@@ -100,11 +98,7 @@ const SinginScreen = ({ user, location, history, state }) => {
               placeholder="Password"
             ></SigninInput>
 
-            <SigninInput
-              className="button submit-Button"
-              type="submit"
-              value="continue"
-            />
+            <SigninInput type="submit" value="continue" />
           </SigninForm>
         </SigninContainer>
       </SigninCard>

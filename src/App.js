@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Routes } from "react-router-dom";
 import { Route } from "react-router-dom";
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
@@ -12,8 +12,10 @@ import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import OrderScreen from "./screens/OrderScreen";
 import OrderHistory from "./screens/OrderHistory";
 import UserProfileScreen from "./screens/UserProfileScreen";
-import ProtectedRoute from "./ProtectedRoute";
-import Nav from "./components/menu";
+import Nav from "./components/Nav";
+import ToastListener from "./Contexts/ToastContext/Listener";
+import AuthChildren from "./AuthChildren";
+import AuthListener from "./Contexts/AuthContext/AuthListener";
 
 function App() {
   return (
@@ -23,33 +25,83 @@ function App() {
           <Nav />
         </header>
         <main>
-          <Route component={HomeScreen} path="/" exact />
-          <Route component={SignupScreen} path="/signup" exact />
-          <Route component={SigninScreen} path="/signin" exact />
-
-          <Route component={ProductScreen} path={"/product/:id"} />
-          <ProtectedRoute component={CartScreen} path={"/cart"} />
-
-          <ProtectedRoute component={ShippingScreen} path={"/shipping"} exact />
-          <ProtectedRoute component={PaymentScreen} path={"/payment"} exact />
-          <ProtectedRoute
-            component={PlaceOrderScreen}
-            path={"/placeOrder"}
-            exact
-          />
-          <ProtectedRoute component={OrderScreen} path={"/order/:id"} />
-          <ProtectedRoute
-            component={UserProfileScreen}
-            path="/userprofile"
-            exact
-          />
-
-          <ProtectedRoute component={OrderHistory} path={"/history"} exact />
+          <Routes>
+            <Route element={<HomeScreen />} path="/" exact />
+            <Route element={<SignupScreen />} path="/signup" exact />
+            <Route element={<SigninScreen />} path="/signin" exact />
+            <Route element={<ProductScreen />} path={"/product/:id"} />
+            {/* <Route path="/cart" element={<Private />}>
+              <Route path="/cart" element={<CartScreen />} />
+            </Route> */}
+            <Route
+              path="/cart"
+              element={
+                <AuthChildren>
+                  <CartScreen />
+                </AuthChildren>
+              }
+            />
+            <Route
+              element={
+                <AuthChildren>
+                  {" "}
+                  <ShippingScreen />
+                </AuthChildren>
+              }
+              path={"/shipping"}
+              exact
+            />
+            <Route
+              element={
+                <AuthChildren>
+                  <PaymentScreen />
+                </AuthChildren>
+              }
+              path={"/payment"}
+              exact
+            />{" "}
+            <Route
+              path={"/placeOrder"}
+              element={
+                <AuthChildren>
+                  <PlaceOrderScreen />
+                </AuthChildren>
+              }
+            />
+            <Route
+              element={
+                <AuthChildren>
+                  <OrderScreen />
+                </AuthChildren>
+              }
+              path={"/order/:id"}
+            />
+            <Route
+              element={
+                <AuthChildren>
+                  <UserProfileScreen />
+                </AuthChildren>
+              }
+              path="/userprofile"
+              exact
+            />
+            <Route
+              element={
+                <AuthChildren>
+                  <OrderHistory />
+                </AuthChildren>
+              }
+              path={"/history"}
+              exact
+            />
+          </Routes>
         </main>
         <footer>
           <div className="footer-container">ALL RIGHTS RESERVED</div>
         </footer>
       </div>
+      <ToastListener />
+      <AuthListener />
     </BrowserRouter>
   );
 }

@@ -17,7 +17,7 @@ import {
 export const signIn = (email, password) => async (dispatch) => {
   dispatch({ type: SIGN_IN_USER_REQUEST, payLoad: { email, password } });
   try {
-    await fetch("http://localhost:5000/api/users/singin", {
+    await fetch(`${process.env.REACT_APP_BACKEND}/api/users/singin`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -39,9 +39,10 @@ export const signIn = (email, password) => async (dispatch) => {
       });
   } catch (error) {
     console.log(error);
+
     dispatch({
       type: SIGN_IN_USER_FAIL,
-      error: error.message,
+      error: error,
     });
   }
 };
@@ -61,27 +62,31 @@ export const signUp = (name, email, password) => async (dispatch) => {
     payLoad: { loading: false },
   });
   try {
-    await fetch("http://localhost:5000/api/users/signup", {
+    await fetch(`${process.env.REACT_APP_BACKEND}/api/users/signup`, {
       method: "POST",
       headers: { "content-Type": "application/json" },
       body: JSON.stringify({ email, password, name }),
     })
       .then((res) => res.json())
       .then((data) => {
-        dispatch({
-          type: CREATE_USER_SUCCESS,
-          payLoad: data,
-        });
-        dispatch({ type: SIGN_IN_USER_SUCCESS, payLoad: data });
-        localStorage.setItem("userInfo", JSON.stringify(data));
+        if (data?.message) {
+          dispatch({
+            type: CREATE_USER_FAIL,
+            error: data,
+          });
+        } else {
+          dispatch({
+            type: CREATE_USER_SUCCESS,
+            payLoad: data,
+          });
+          dispatch({ type: SIGN_IN_USER_SUCCESS, payLoad: data });
+          localStorage.setItem("userInfo", JSON.stringify(data));
+        }
       });
   } catch (e) {
     dispatch({
       type: CREATE_USER_FAIL,
-      payLoad:
-        e.response && e.response.data.message
-          ? e.response.data.message
-          : e.message,
+      error: e,
     });
   }
 };
@@ -92,7 +97,7 @@ export const getUserById = (id) => async (dispatch) => {
   });
 
   try {
-    const res = await fetch(`http://localhost:5000/api/users/${id}`);
+    const res = await fetch(`${process.env.REACT_APP_BACKEND}/api/users/${id}`);
     const userById = await res.json();
     dispatch({
       type: GET_USER_BY_ID_SUCCESS,
@@ -114,7 +119,7 @@ export const updateUserInfo = (newInfo) => async (dispatch, getState) => {
   try {
     const { userInfo } = getState().user;
     const res = await fetch(
-      `http://localhost:5000/api/users/update/${newInfo._id}`,
+      `${process.env.REACT_APP_BACKEND}/api/users/update/${newInfo._id}`,
       {
         method: "PUT",
         headers: {

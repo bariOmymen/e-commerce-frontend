@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Products from "../components/Products";
 import { connect } from "react-redux";
 import { fetchProducts } from "../actions/productsActions";
+import Card from "../components/Product/Card";
 
 const HomeScreen = ({ products, fetchProducts }) => {
   useEffect(() => {
@@ -11,9 +12,7 @@ const HomeScreen = ({ products, fetchProducts }) => {
   return (
     <div className="home-container row-center">
       {products
-        ? products.map((product) => (
-            <Products key={product._id} product={product} />
-          ))
+        ? products.map((product) => <Card key={product._id} item={product} />)
         : "loading.."}
     </div>
   );

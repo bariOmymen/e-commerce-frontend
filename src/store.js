@@ -2,11 +2,13 @@ import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import thunk from "redux-thunk";
 import productsReducers from "./reducers/productsReducers";
 import detailsReducer from "./reducers/detailsReducer";
-import cartReducers, { userDetailsReducer } from "./reducers/cartReducers";
+import cartReducers from "./reducers/cartReducers";
 import userReducers, {
   signupReducer,
   updateUserInfoReducer,
   userInfoByIdReducer,
+  userShippingDetailsReducer,
+  userPaymentDetailsReducer,
 } from "./reducers/userReducers";
 import orderReducers, {
   orderDetailsReducers,
@@ -32,10 +34,12 @@ const initialState = {
       paymentMethod: "",
     },
   },
-  userDetails: {
+  userShippingDetails: {
     shipping: localStorage.getItem("shippingDetails")
       ? JSON.parse(localStorage.getItem("shippingDetails"))
       : {},
+  },
+  userPaymentDetails: {
     payment: localStorage.getItem("payment")
       ? JSON.parse(localStorage.getItem("payment"))
       : {},
@@ -53,7 +57,8 @@ const store = createStore(
     cart: cartReducers,
     user: userReducers,
     userSignup: signupReducer,
-    userDetails: userDetailsReducer,
+    userShippingDetails: userShippingDetailsReducer,
+    userPaymentDetails: userPaymentDetailsReducer,
     userNewDetails: updateUserInfoReducer,
     userById: userInfoByIdReducer,
     orders: orderReducers,

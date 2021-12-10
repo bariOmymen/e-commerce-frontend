@@ -5,6 +5,8 @@ import {
   GET_USER_BY_ID_FAIL,
   GET_USER_BY_ID_REQUEST,
   GET_USER_BY_ID_SUCCESS,
+  SAVE_PAYMENT_METHOD,
+  SAVE_SHIPPING_DETAILS,
   SIGNOUT_USER,
   SIGN_IN_USER_FAIL,
   SIGN_IN_USER_REQUEST,
@@ -48,10 +50,11 @@ export const signupReducer = (state = {}, action) => {
         loading: false,
         userInfo: action.payLoad,
       };
+
     case CREATE_USER_FAIL:
       return {
         loading: false,
-        message: action.data,
+        error: action.error,
       };
 
     default:
@@ -86,6 +89,33 @@ export const updateUserInfoReducer = (state = {}, action) => {
       return { loading: false, error: action.error };
     case UPDATE_USER_BY_ID_RESET:
       return { loading: false, userNewInfo: {} };
+    default:
+      return state;
+  }
+};
+export const userShippingDetailsReducer = (
+  state = {
+    shippingDetails: {},
+  },
+  action
+) => {
+  switch (action.type) {
+    case SAVE_SHIPPING_DETAILS:
+      return { loading: true, shippingDetails: action.payLoad };
+    default:
+      return state;
+  }
+};
+
+export const userPaymentDetailsReducer = (
+  state = {
+    payment: "",
+  },
+  action
+) => {
+  switch (action.type) {
+    case SAVE_PAYMENT_METHOD:
+      return { payment: action.payLoad };
     default:
       return state;
   }

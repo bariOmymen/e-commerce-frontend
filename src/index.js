@@ -3,20 +3,13 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { Provider } from "react-redux";
-import store from "./store";
-import { ProvideAuth } from "./router-helper";
 import Providers from "./providers";
 
 ReactDOM.render(
   <Providers>
-    <Provider store={store}>
-      <ProvideAuth>
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
-      </ProvideAuth>
-    </Provider>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
   </Providers>,
   document.getElementById("root")
 );

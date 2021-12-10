@@ -3,7 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useWeb3React } from "@web3-react/core";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../router-helper";
+import styled from "styled-components";
+import { useAuth } from "../../hooks/useAuth";
 import { Button } from "../form";
 import "./styles.css";
 import UserItem from "./UserItem";
@@ -36,6 +37,7 @@ function User() {
         {showFirstSevenLetters(account)}{" "}
         <FontAwesomeIcon icon={faCaretDown}></FontAwesomeIcon>{" "}
       </h3>
+
       <ul className={open ? "dropdown-content-active" : "dropdown-content"}>
         <UserItem>
           <Link to="/userprofile">User Profile</Link>
@@ -54,27 +56,13 @@ function User() {
           </Link>
         </UserItem>
         <UserItem>
-          <Button onClick={disconnect}>Disconnect</Button>
+          <div onClick={disconnect}>Disconnect</div>
         </UserItem>
         <UserItem>
-          <Link
-            to="/signin"
-            onClick={() => {
-              auth.signout();
-            }}
-          >
-            Signin
-          </Link>
+          <Link to="/signin">Signin</Link>
         </UserItem>
         <UserItem>
-          <Link
-            to="/Signup"
-            onClick={() => {
-              auth.signout();
-            }}
-          >
-            Signup
-          </Link>
+          <Link to="/Signup">Signup</Link>
         </UserItem>
       </ul>
     </div>

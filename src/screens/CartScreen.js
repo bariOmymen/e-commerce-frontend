@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import styled from "styled-components";
 
 import { deleteItem } from "../actions/cartActins";
+import { Button } from "../components/styles/Button";
 
+const ProceedButton = styled(Button)`
+  justify-self: flex-end;
+  align-self: flex-end;
+  text-align: flex-end;
+`;
 const CartScreen = (props) => {
-  const id = props.match.params.id;
+  const params = useParams();
+  const id = params.id;
   const addToCart = props.addToCart;
   const cartItems = props.cartItems;
   const deleteItem = props.deleteItem;
@@ -52,9 +60,8 @@ const CartScreen = (props) => {
             <h3> {cartItems.reduce((a, c) => a + c.price * c.qty, 0)}</h3>
           </div>
 
-          <Link className="proceed-button button" to="/shipping">
-            {" "}
-            proceed
+          <Link className="proceed-button" to="/shipping">
+            <ProceedButton>Proceed</ProceedButton>
           </Link>
         </div>
       </div>
