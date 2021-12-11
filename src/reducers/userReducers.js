@@ -101,7 +101,10 @@ export const userShippingDetailsReducer = (
 ) => {
   switch (action.type) {
     case SAVE_SHIPPING_DETAILS:
-      return { loading: true, shippingDetails: action.payLoad };
+      console.log(action.payLoad);
+      return { loading: false, shipping: action.payLoad };
+    case SIGNOUT_USER:
+      return { shipping: null };
     default:
       return state;
   }
@@ -116,6 +119,8 @@ export const userPaymentDetailsReducer = (
   switch (action.type) {
     case SAVE_PAYMENT_METHOD:
       return { payment: action.payLoad };
+    case SIGNOUT_USER:
+      return { payment: null };
     default:
       return state;
   }

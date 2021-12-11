@@ -1,4 +1,4 @@
-import { ADD_TO_CART, DELETE_ITEM, EMPTYCART } from "../types";
+import { ADD_TO_CART, DELETE_ITEM, EMPTYCART, SIGNOUT_USER } from "../types";
 
 const cartReducers = (state = { cartItems: [] }, action) => {
   switch (action.type) {
@@ -19,7 +19,7 @@ const cartReducers = (state = { cartItems: [] }, action) => {
 
     case DELETE_ITEM:
       return { cartItems: action.payLoad.cartItems };
-    case EMPTYCART:
+    case SIGNOUT_USER:
       return { cartItems: [] };
 
     default:

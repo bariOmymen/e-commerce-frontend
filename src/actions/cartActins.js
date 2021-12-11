@@ -37,6 +37,7 @@ export const deleteItem = (id) => async (dispatch, getState) => {
 };
 
 export const saveShippingDetails = (data) => async (dispatch) => {
+  console.log(data);
   dispatch({
     type: SAVE_SHIPPING_DETAILS,
     payLoad: data,

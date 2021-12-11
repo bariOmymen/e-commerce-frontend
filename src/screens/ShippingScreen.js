@@ -61,6 +61,7 @@ function ShippingScreen({
     e.preventDefault();
 
     saveShippingDetails({ fullName, address, city, postalCode, country });
+    console.log({ fullName, address, city, postalCode, country });
     toastSuccess({ title: "Shipping Details Saved" });
 
     navigate("../payment", { replace: true });
