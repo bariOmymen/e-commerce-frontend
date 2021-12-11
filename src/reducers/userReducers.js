@@ -101,7 +101,7 @@ export const userShippingDetailsReducer = (
 ) => {
   switch (action.type) {
     case SAVE_SHIPPING_DETAILS:
-      return { loading: true, shippingDetails: action.payLoad };
+      return { loading: true, shipping: action.payLoad };
     default:
       return state;
   }
