@@ -101,7 +101,8 @@ export const userShippingDetailsReducer = (
 ) => {
   switch (action.type) {
     case SAVE_SHIPPING_DETAILS:
-      console.log(action.payLoad);
+
+      
       return { loading: false, shipping: action.payLoad };
     case SIGNOUT_USER:
       return { shipping: null };
