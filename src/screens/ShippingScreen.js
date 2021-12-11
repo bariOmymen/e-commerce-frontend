@@ -59,10 +59,9 @@ function ShippingScreen({
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (!shippingDetails) {
-      saveShippingDetails({ fullName, address, city, postalCode, country });
-      toastSuccess({ title: "Shipping Details Saved" });
-    }
+
+    saveShippingDetails({ fullName, address, city, postalCode, country });
+    toastSuccess({ title: "Shipping Details Saved" });
 
     navigate("../payment", { replace: true });
   };
