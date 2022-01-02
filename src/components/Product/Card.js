@@ -1,6 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Box } from "../Box/Box";
+import { FlexBox } from "../Box/Flex";
+import Card from "../Card/Card";
+import CardBody from "../Card/CardBody";
+import CardFooter from "../Card/CardFooter";
 import Rating from "../Rating";
 
 const Image = styled.img`
@@ -10,13 +15,7 @@ const Image = styled.img`
   justify-self: center;
   align-self: center;
 `;
-const Container = styled.div`
-  display: flex;
-  flex-direction: ${(props) => props.flex};
 
-  margin: 10px;
-  justify-content: space-between;
-`;
 const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,23 +32,34 @@ const CardContainer = styled.div`
 const Text = styled.h4`
   color: var(--text);
 `;
+const StyledCardLink = styled(Link)`
+  text-decoration: none;
+  max-width: 400px;
+  margin: 15px;
+`;
 
-function Card({ item, ...props }) {
+function ItemCard({ item, ...props }) {
   return (
-    <Link to={`/product/${item._id}`}>
-      <CardContainer>
-        <Image src={item.image} />
-        <Container>
-          <Text>{item.name}</Text>
-        </Container>
+    <StyledCardLink to={`/product/${item._id}`}>
+      <Card margin={"12px"}>
+        <CardBody p={"12px"}>
+          <FlexBox flexDirection={"row"} justifyContent={"center"}>
+            <Image src={item.image} />
+          </FlexBox>
+        </CardBody>
+        <CardFooter>
+          <Box>
+            <Text>{item.name}</Text>
+          </Box>
 
-        <Container flex="row">
-          <Text>{item.price}</Text>
-          <Rating rating={item.rating} numReviews={item.numReviews} />
-        </Container>
-      </CardContainer>
-    </Link>
+          <FlexBox flexDirection={"row"} justifyContent={"space-between"}>
+            <Text>{item.price}</Text>
+            <Rating rating={item.rating} numReviews={item.numReviews} />
+          </FlexBox>
+        </CardFooter>
+      </Card>
+    </StyledCardLink>
   );
 }
 
-export default Card;
+export default ItemCard;

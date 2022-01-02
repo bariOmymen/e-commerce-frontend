@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, Form, Header, Input, Page } from "../components/form";
 import styled from "styled-components";
 import { useToast } from "../hooks/useToast";
+import { default as PageWrapper } from "../components/styles/Page";
 
 const ShippingCard = styled(Card)``;
 
@@ -61,13 +62,12 @@ function ShippingScreen({
     e.preventDefault();
 
     saveShippingDetails({ fullName, address, city, postalCode, country });
-    console.log({ fullName, address, city, postalCode, country });
     toastSuccess({ title: "Shipping Details Saved" });
 
     navigate("../payment", { replace: true });
   };
   return (
-    <div className="screen">
+    <PageWrapper>
       <ChexkoutFlow step1 step2></ChexkoutFlow>
       <ShippingPage>
         <ShippingCard size="big">
@@ -112,7 +112,7 @@ function ShippingScreen({
           </ShippingForm>
         </ShippingCard>
       </ShippingPage>
-    </div>
+    </PageWrapper>
   );
 }
 

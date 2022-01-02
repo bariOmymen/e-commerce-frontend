@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import CartBadge from "../CartBadge";
 import ConnectButton from "../connectButton";
+import NavListItem from "../NavListItem/NavListItem";
 import { ListItem } from "../styles/ListItem";
 import User from "../user";
 import "./styles.css";
@@ -19,6 +20,14 @@ function Nav() {
       <div className="right-side">
         <ul className="nav-items">
           <ListItem>
+            <NavListItem
+              notify={cartItems.length > 0}
+              notificationNumber={cartItems.length}
+            >
+              <Link to={"/cart"}>Cart</Link>
+            </NavListItem>
+          </ListItem>
+          {/* <ListItem>
             <Link className="cart" to="/cart">
               {" "}
               Cart{" "}
@@ -28,7 +37,7 @@ function Nav() {
                 </CartBadge>
               ) : null}
             </Link>
-          </ListItem>
+          </ListItem> */}
           {active ? (
             <ListItem>
               <User />

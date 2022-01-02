@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, Form, Header, Input, Page } from "../components/form";
 import styled from "styled-components";
 import { useToast } from "../hooks/useToast";
+import { default as PageWrapper } from "../components/styles/Page";
 
 const PaymentCard = styled(Card)``;
 const PaymentForm = styled(Form)`
@@ -43,7 +44,7 @@ function PaymentScreen({ userInfo, savePaymentMethod, ...props }) {
     }
   };
   return (
-    <div className="screen">
+    <PageWrapper className="screen">
       <ChexkoutFlow step1 step2 step3 />
       <PaymentPage>
         <PaymentCard size="medium">
@@ -76,7 +77,7 @@ function PaymentScreen({ userInfo, savePaymentMethod, ...props }) {
           </PaymentForm>
         </PaymentCard>
       </PaymentPage>
-    </div>
+    </PageWrapper>
   );
 }
 export default connect(

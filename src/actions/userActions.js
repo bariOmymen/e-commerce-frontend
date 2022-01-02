@@ -12,6 +12,7 @@ import {
   UPDATE_USER_BY_ID_REQUST,
   UPDATE_USER_BY_ID_FAIL,
   UPDATE_USER_BY_ID_SUCCESS,
+  TOGGLETHEME,
 } from "../types";
 
 export const signIn = (email, password) => async (dispatch) => {
@@ -144,3 +145,13 @@ export const updateUserInfo = (newInfo) => async (dispatch, getState) => {
     });
   }
 };
+
+export const ToggleTheme =
+  (isDark = false) =>
+  async (dispatch, getState) => {
+    localStorage.setItem("isDark", JSON.stringify(isDark));
+    dispatch({
+      type: TOGGLETHEME,
+      payLoad: isDark,
+    });
+  };

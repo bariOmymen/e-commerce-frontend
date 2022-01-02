@@ -11,13 +11,21 @@ import {
   SIGN_IN_USER_FAIL,
   SIGN_IN_USER_REQUEST,
   SIGN_IN_USER_SUCCESS,
+  TOGGLETHEME,
   UPDATE_USER_BY_ID_FAIL,
   UPDATE_USER_BY_ID_REQUST,
   UPDATE_USER_BY_ID_RESET,
   UPDATE_USER_BY_ID_SUCCESS,
 } from "../types";
 
-const userReducers = (state = {}, action) => {
+const userReducers = (
+  state = {
+    loading: false,
+    userInfo: null,
+    isDark: true,
+  },
+  action
+) => {
   switch (action.type) {
     case SIGN_IN_USER_REQUEST:
       return { loading: true };
@@ -25,16 +33,27 @@ const userReducers = (state = {}, action) => {
       return {
         loading: false,
         userInfo: action.payLoad,
+        ...state,
       };
     case SIGN_IN_USER_FAIL:
       return {
         loading: false,
         error: action.error,
+        ...state,
       };
     case SIGNOUT_USER:
+      localStorage.removeItem("userInfo");
+      localStorage.removeItem("cartItems");
+      localStorage.removeItem("shippingDetails");
       return {
+        ...state,
         loading: false,
         userInfo: null,
+      };
+    case TOGGLETHEME:
+      return {
+        ...state,
+        isDark: action.payLoad,
       };
 
     default:

@@ -6,7 +6,9 @@ import styled from "styled-components";
 import { Card, Container, Form, Header, Input, Page } from "../components/form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useToast } from "../hooks/useToast";
-const SignupCard = styled(Card)``;
+const SignupCard = styled(Card)`
+  margin: auto auto;
+`;
 
 const SignupContainer = styled(Container)`
   justify-content: center;

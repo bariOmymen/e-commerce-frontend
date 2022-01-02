@@ -26,6 +26,7 @@ const initialState = {
     userInfo: localStorage.getItem("userInfo")
       ? JSON.parse(localStorage.getItem("userInfo"))
       : null,
+    isDark: JSON.parse(localStorage.getItem("isDark")) || false,
   },
   orderDetails: {
     orderById: {
