@@ -2,7 +2,6 @@ import { useWeb3React } from "@web3-react/core";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useAuth } from "../../hooks/useAuth";
 import useOnClickOutSide from "../../hooks/useOnClickOutSide";
 import { Box } from "../Box/Box";
 import { Text } from "../Text";
