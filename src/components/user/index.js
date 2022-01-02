@@ -1,19 +1,53 @@
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useWeb3React } from "@web3-react/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useAuth } from "../../hooks/useAuth";
-import { Button } from "../form";
+import useOnClickOutSide from "../../hooks/useOnClickOutSide";
+import { Box } from "../Box/Box";
+import { Text } from "../Text";
 import "./styles.css";
 import UserItem from "./UserItem";
 
-function User() {
-  const [open, setOpen] = useState(false);
-  const { deactivate, account } = useWeb3React();
-  const auth = useAuth();
+const StyledUser = styled.div`
+  visibility: visible;
+  z-index: 1001;
+  pointer-events: auto;
 
+  backround-color: ${({ theme }) => theme.card.background};
+  ${({ isOpen }) =>
+    !isOpen &&
+    `
+    
+    display: none;
+visibility: hidden;
+pointer-events: none;
+`}
+`;
+
+const AccountToken = styled(Text)`
+  padding: 10px 8px;
+  background-color: transparent;
+  cursor: pointer;
+
+  &:hover {
+    border-radius: 12px;
+    background-color: ${({ theme }) => theme.colors.tertiary};
+  }
+`;
+
+function User(props) {
+  const [open, setOpen] = useState(false);
+  const [targetRef, setTargetRef] = useState();
+  const { deactivate, account } = useWeb3React();
+
+  useEffect(() => {});
+
+  useOnClickOutSide(
+    {
+      current: targetRef,
+    },
+    () => setOpen(false)
+  );
   const disconnect = () => {
     try {
       deactivate();
@@ -22,7 +56,6 @@ function User() {
       console.log(error);
     }
   };
-
   function showFirstSevenLetters(string) {
     const arr = string.split("");
     let res = "";
@@ -32,40 +65,25 @@ function User() {
     return res;
   }
   return (
-    <div>
-      <h3 className="dropdown" onClick={() => setOpen(!open)}>
-        {showFirstSevenLetters(account)}{" "}
-        <FontAwesomeIcon icon={faCaretDown}></FontAwesomeIcon>{" "}
-      </h3>
+    <Box ref={setTargetRef} zIndex={30} height={"45px"} {...props}>
+      <Box>
+        <AccountToken onPointerDown={() => setOpen((open) => !open)}>
+          {showFirstSevenLetters(account)}
+        </AccountToken>
+      </Box>
 
-      <ul className={open ? "dropdown-content-active" : "dropdown-content"}>
-        <UserItem>
-          <Link to="/userprofile">User Profile</Link>
-        </UserItem>
-        <UserItem>
-          <Link to="/orderhistory">Order History</Link>
-        </UserItem>
-        <UserItem>
-          <Link
-            to="#signout"
-            onClick={() => {
-              auth.signout();
-            }}
-          >
-            Sign Out
-          </Link>
-        </UserItem>
-        <UserItem>
-          <div onClick={disconnect}>Disconnect</div>
-        </UserItem>
-        <UserItem>
-          <Link to="/signin">Signin</Link>
-        </UserItem>
-        <UserItem>
-          <Link to="/Signup">Signup</Link>
-        </UserItem>
-      </ul>
-    </div>
+      {open && (
+        <StyledUser isOpen={open}>
+          <UserItem>
+            <Link to="/userprofile">User Profile</Link>
+          </UserItem>
+
+          <UserItem>
+            <div onClick={disconnect}>Disconnect</div>
+          </UserItem>
+        </StyledUser>
+      )}
+    </Box>
   );
 }
 

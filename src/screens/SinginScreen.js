@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
-import { signIn } from "../../actions/userActions";
-import { useAuth } from "../../hooks/useAuth";
+import { signIn } from "../actions/userActions";
+import { useAuth } from "../hooks/useAuth";
 import styled from "styled-components";
 import {
   Button,
@@ -13,11 +13,11 @@ import {
   Input,
   Page,
   RowContainer,
-} from "../../components/form";
-import { useToast } from "../../hooks/useToast";
+} from "../components/form";
+import { useToast } from "../hooks/useToast";
 
 const SigninCard = styled(Card)`
-  margin: 0px auto;
+  margin: auto auto;
 `;
 
 const SigninContainer = styled(Container)``;

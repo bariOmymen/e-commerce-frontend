@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { default as FormCard } from "./Card/Card";
 
-export const Card = styled.div`
+export const Card = styled(FormCard)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,11 +22,12 @@ export const Container = styled.div`
 `;
 
 export const Page = styled.div`
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100vh;
+  height: 100%;
 `;
 
 export const Header = styled.h1``;

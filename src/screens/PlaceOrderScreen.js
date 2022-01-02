@@ -5,6 +5,13 @@ import { placeOrder } from "../actions/orderActions";
 import ChexkoutFlow from "../components/ChexkoutFlow";
 import { CREATE_ORDER_RESET } from "../types";
 import { useToast } from "../hooks/useToast";
+import Card from "../components/Card/Card";
+import Page from "../components/styles/Page";
+import styled from "styled-components";
+
+const StyledCard = styled(Card)`
+  border-radius: 8px;
+`;
 
 function PlaceOrderScreen({
   cartItems,
@@ -37,13 +44,13 @@ function PlaceOrderScreen({
   const shippingPrice = cartItems[0].price;
   const totalPrice = itemsPrice + taxPrice + shippingPrice;
   return (
-    <div className="">
+    <Page>
       <ChexkoutFlow step1 step2 step3 step4 />
       <div className=" order-columns">
         <div className="order-col-1">
           <ul>
             <li>
-              <div className="card shipping-details">
+              <StyledCard className="card shipping-details">
                 <div>
                   <strong>Name :</strong> <span>{shipping?.fullName}</span>
                 </div>
@@ -57,16 +64,16 @@ function PlaceOrderScreen({
                 ) : (
                   "loading..."
                 )}
-              </div>
+              </StyledCard>
             </li>
             <li>
-              <div className="card payment-details">
+              <StyledCard className="card payment-details">
                 <h3>Payment Method</h3>
                 <strong>{paymentMethod}</strong>
-              </div>
+              </StyledCard>
             </li>
             <li>
-              <div className="card payment-details">
+              <StyledCard className="card payment-details">
                 <div className="grid-2-cols">
                   <div className="products-col">
                     {cartItems.map((item) => (
@@ -87,11 +94,11 @@ function PlaceOrderScreen({
                     </div>
                   </div>
                 </div>
-              </div>
+              </StyledCard>
             </li>
           </ul>
         </div>
-        <div className="card proceed-checkout place-order-checkout">
+        <StyledCard className="card proceed-checkout place-order-checkout">
           <div>
             <strong>propducts:</strong> <span>${itemsPrice}</span>
           </div>
@@ -121,9 +128,9 @@ function PlaceOrderScreen({
           >
             Place Order
           </button>
-        </div>
+        </StyledCard>
       </div>
-    </div>
+    </Page>
   );
 }
 
