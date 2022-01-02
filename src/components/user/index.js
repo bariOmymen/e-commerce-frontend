@@ -40,7 +40,6 @@ function User(props) {
   const [open, setOpen] = useState(false);
   const [targetRef, setTargetRef] = useState();
   const { deactivate, account } = useWeb3React();
-  const auth = useAuth();
 
   useEffect(() => {});
 
